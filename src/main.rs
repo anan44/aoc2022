@@ -44,7 +44,11 @@ fn to_elves(sv: Vec<String>) -> Vec<Elf> {
 fn part1() {
     let raw = utils::read_lines("./inputs/day1.txt");
     let elves: Vec<Elf> = to_elves(raw);
-    let fat_elf = elves.iter().map(|x| x.total_calories()).max().unwrap();
+    let fat_elf = elves
+        .iter()
+        .map(|x| x.total_calories())
+        .max()
+        .unwrap();
     println!("{}", fat_elf)
 }
 
@@ -52,8 +56,14 @@ fn part1() {
 fn part2() {
     let raw = utils::read_lines("./inputs/day1.txt");
     let elves: Vec<Elf> = to_elves(raw);
-    let mut foods: Vec<i32> = elves.iter().map(|x| x.total_calories()).collect();
+    let mut foods: Vec<i32> = elves
+        .iter()
+        .map(|x| x.total_calories())
+        .collect();
     foods.sort_by(|a, b| b.partial_cmp(a).unwrap());
-    let top3_total: i32 = foods[0..3].to_vec().iter().sum();
+    let top3_total: i32 = foods[0..3]
+        .to_vec()
+        .iter()
+        .sum();
     println!("{}", top3_total);
 }
