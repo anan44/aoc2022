@@ -1,5 +1,4 @@
-use crate::utils::file;
-pub mod utils;
+use aoc2022::utils;
 
 struct Elf {
     foods: Vec<i32>
@@ -32,7 +31,7 @@ fn to_elves(sv: Vec<String>) -> Vec<Elf> {
 }
 
 fn part1() {
-    let raw = file::read_lines("./inputs/day1.txt");
+    let raw = utils::read_lines("./inputs/day1.txt");
     let elves: Vec<Elf> = to_elves(raw);
     let fat_elf = elves
         .iter()
@@ -44,7 +43,7 @@ fn part1() {
 
 
 fn part2() {
-    let raw = file::read_lines("./inputs/day1.txt");
+    let raw = utils::read_lines("./inputs/day1.txt");
     let elves: Vec<Elf> = to_elves(raw);
     let mut foods: Vec<i32> = elves
         .iter()
