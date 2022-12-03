@@ -8,19 +8,24 @@ struct Compartments {
 }
 
 impl Compartments {
-    fn find_mistake(&self) -> Vec<i32>{
+    fn find_mistake(&self) -> i32 {
         let first_set: HashSet<&u8> = HashSet::from_iter(self.first.iter());
         let second_set: HashSet<&u8> = HashSet::from_iter(self.second.iter());
         let in_both: HashSet<&u8> = first_set.intersection(&second_set)
             .copied()
             .collect();
 
-        return in_both.into_iter()
-            .map(|x| to_priories(x)).collect();
+        let vec: Vec<i32> = in_both.into_iter()
+            .map(|x| to_priorities(x))
+            .collect();
+
+        return vec.get(0)
+            .unwrap()
+            .clone();
     }
 }
 
-fn to_priories(c: &u8) -> i32 {
+fn to_priorities(c: &u8) -> i32 {
     return match c {
         97..=122 => (c - 96) as i32,
         65..=90 => (c - 38) as i32,
@@ -43,14 +48,18 @@ fn split_to_compartments(s: &str) -> Compartments {
 }
 
 pub fn part1() {
-    let raw = utils::read_lines("./inputs/trial.txt");
+    let raw = utils::read_lines("./inputs/day3.txt");
     let comps: Vec<Compartments> = raw.iter()
         .map(|x| split_to_compartments(x))
         .collect();
 
-    for x in comps {
-        println!("{:?}", x)
-    }
+    let mistakes: Vec<i32> = comps.iter()
+        .map(|x| x.find_mistake())
+        .collect();
+
+    let sum: i32 = mistakes.iter().sum();
+
+    println!("{}", sum)
 
 
 }
