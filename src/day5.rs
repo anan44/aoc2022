@@ -35,6 +35,36 @@ impl Stacks {
         };
     }
 
+    fn make_multi_move(self, m: &Move) -> Stacks {
+        let from_index = (m.from - 1) as usize;
+        let to_index = (m.to - 1) as usize;
+        let mut from_tower = self.towers.get(from_index)
+            .unwrap()
+            .clone();
+        let mut to_tower = self.towers.get(to_index)
+            .unwrap()
+            .clone();
+
+
+        let mut mover: Vec<String> = Vec::new();
+
+        for _ in 0..m.count {
+            mover.push(from_tower.pop().unwrap());
+        }
+
+        for _ in 0..m.count {
+            to_tower.push(mover.pop().unwrap());
+        }
+
+        let mut new_towers = self.towers.clone();
+        new_towers[from_index] = from_tower;
+        new_towers[to_index] = to_tower;
+
+        return Stacks {
+            towers: new_towers
+        };
+    }
+
     fn get_top_crates(&self) -> String {
         let top_crates: Vec<String> = self.towers.iter()
             .map(|x| x.last().unwrap().clone())
@@ -134,6 +164,15 @@ fn make_all_moves(s: Stacks, moves: Vec<Move>) -> Stacks {
     return stacks;
 }
 
+fn make_all_multi_moves(s: Stacks, moves: Vec<Move>) -> Stacks {
+    let mut stacks = s;
+    for m in moves {
+        stacks = stacks.make_multi_move(&m);
+    }
+
+    return stacks;
+}
+
 pub fn part1() {
     let raw = utils::read_lines("./inputs/day5.txt");
 
@@ -141,6 +180,16 @@ pub fn part1() {
     let moves = parse_bottom(raw.clone());
 
     let complete = make_all_moves(stacks, moves);
+
+    println!("{:?}", complete.get_top_crates())
+}
+
+pub fn part2() {
+    let raw = utils::read_lines("./inputs/day5.txt");
+
+    let stacks = parse_top(raw.clone());
+    let moves = parse_bottom(raw.clone());
+    let complete = make_all_multi_moves(stacks, moves);
 
     println!("{:?}", complete.get_top_crates())
 }
