@@ -168,3 +168,28 @@ pub fn part1() {
 
     println!("{}", total)
 }
+
+pub fn part2() {
+    let raw = utils::read_to_string("./inputs/day7.txt");
+    let commands = parse_commands(raw);
+    let state = new_state(commands);
+    let files: Vec<String> = state.files.iter()
+        .map(|(k, _)| k.clone())
+        .collect();
+    let folders_vec = find_folders(files.clone());
+    let folders: HashSet<&String> = HashSet::from_iter(folders_vec.iter());
+    let sizes = calculate_folder_sizes(folders, state.files.clone());
+
+    let root_size = sizes.get("/").unwrap();
+    let space_free = 70000000 - root_size;
+    let need_to_free = 30000000 - space_free;
+
+    let mut just_sizes: Vec<i32> = sizes.into_iter()
+        .map(|(_, v)| v)
+        .filter(|x| x.clone() >= need_to_free)
+        .collect();
+
+
+    just_sizes.sort();
+    println!("{:?}", just_sizes.get(0).unwrap())
+}
