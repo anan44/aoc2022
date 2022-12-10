@@ -88,12 +88,36 @@ impl State {
             }
         }
     }
-    
+
     fn move_helper(&mut self, new_head: (i32, i32)) {
         if tail_needs_to_move(new_head, self.tail) {
-            self.tail = self.head.clone();
-            self.tail_positions.insert(self.tail);
+            let mut new_tail_x = self.tail.0;
+            let mut new_tail_y = self.tail.1;
+
+            // X move
+            if new_head.0 > self.tail.0 {
+                new_tail_x += 1;
+            }
+            if new_head.0 < self.tail.0 {
+                new_tail_x -= 1;
+            }
+
+            // Y move
+            if new_head.1 > self.tail.1 {
+                new_tail_y += 1;
+            }
+            if new_head.1 < self.tail.1 {
+                new_tail_y -= 1;
+            }
+
+            let new_tail = (new_tail_x, new_tail_y);
+            self.tail_positions.insert(new_tail);
+            if self.tail == new_tail {
+                println!("{:?} {:?}", new_head, self.tail)
+            }
+            self.tail = new_tail;
         }
+
         self.head = new_head;
     }
 }
@@ -104,9 +128,9 @@ fn tail_needs_to_move(head: (i32, i32), tail: (i32, i32)) -> bool{
     if x_distance < 2 && y_distance < 2 {
         return false;
     }
-
     return true;
 }
+
 
 pub fn part1() {
     let raw = utils::read_lines("./inputs/day9.txt");
@@ -139,5 +163,10 @@ pub fn part2() {
         tail_positions: HashSet::new(),
     };
 
+
     state.tail_positions.insert((0, 0));
+    for m in steps.iter() {
+        state.make_move(m.clone());
+    }
+    println!("{:?}", state.tail_positions.len())
 }
