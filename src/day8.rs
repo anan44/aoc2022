@@ -138,7 +138,6 @@ impl Forest {
 
 
         let total = left * right * top * bottom;
-        let tree_height = self.trees.get(y).unwrap().get(x).unwrap();
         return total
     }
 
@@ -218,8 +217,6 @@ pub fn part1() {
 pub fn part2() {
     let raw = utils::read_lines("./inputs/day8.txt");
     let forest = new_forest(raw);
-
-    let score = forest.get_viewing_score(1, 2);
 
     println!("{:?}", forest.calculate_max_viewing_score())
 }
