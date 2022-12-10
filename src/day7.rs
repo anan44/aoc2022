@@ -1,7 +1,4 @@
-use std::borrow::Borrow;
 use std::collections::{HashMap, HashSet};
-use std::ops::Add;
-use std::os::macos::raw::stat;
 use crate::utils;
 use regex::Regex;
 use lazy_static::lazy_static;
@@ -71,12 +68,12 @@ fn parse_commands(raw: String) -> Vec<Command> {
 
 fn cd_new_pwd(pwd: String, path: &str) -> String {
     lazy_static! {
-        static ref re: Regex = Regex::new(r"(.*/)\w+/$").unwrap();
+        static ref RE: Regex = Regex::new(r"(.*/)\w+/$").unwrap();
     }
     return match path {
         "/" => "/".to_string(),
         ".." => {
-            let cap = re.captures(pwd.as_str()).unwrap();
+            let cap = RE.captures(pwd.as_str()).unwrap();
             cap[1].to_string()
         }
         _ => format!("{}{}/", pwd, path)
@@ -162,7 +159,7 @@ pub fn part1() {
     let sizes = calculate_folder_sizes(folders, state.files.clone());
 
     let total: i32 = sizes.into_iter()
-        .filter(|(k, v)| v.clone() <= 100000)
+        .filter(|(_, v)| v.clone() <= 100000)
         .map(|(_, v)| v)
         .sum();
 
