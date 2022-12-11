@@ -77,39 +77,39 @@ impl State {
         return match m {
             Direction::Up => {
                 let new_head = (self.head.0, self.head.1 + 1);
-                return self.move_helper(new_head);
+                self.move_helper(new_head)
             }
             Direction::Down => {
                 let new_head = (self.head.0, self.head.1 - 1);
-                return self.move_helper(new_head);
+                self.move_helper(new_head)
             }
             Direction::Right => {
                 let new_head = (self.head.0 + 1, self.head.1);
-                return self.move_helper(new_head);
+                self.move_helper(new_head)
             }
             Direction::Left => {
                 let new_head = (self.head.0 - 1, self.head.1);
-                return self.move_helper(new_head);
+                self.move_helper(new_head)
             }
 
             Direction::UpRight => {
                 let new_head = (self.head.0 + 1, self.head.1 + 1);
-                return self.move_helper(new_head);
+                self.move_helper(new_head)
             }
             Direction::UpLeft => {
                 let new_head = (self.head.0 - 1, self.head.1 + 1);
-                return self.move_helper(new_head);
+                self.move_helper(new_head)
             }
             Direction::DownRight => {
                 let new_head = (self.head.0 + 1, self.head.1 - 1);
-                return self.move_helper(new_head);
+                self.move_helper(new_head)
             }
             Direction::DownLeft => {
                 let new_head = (self.head.0 - 1, self.head.1 - 1);
-                return self.move_helper(new_head);
+                self.move_helper(new_head)
             }
             Direction::Skip => {
-                return Direction::Skip
+                Direction::Skip
             }
         }
     }
