@@ -8,6 +8,10 @@ enum Direction {
     Down,
     Left,
     Right,
+    UpRight,
+    UpLeft,
+    DownRight,
+    DownLeft,
 }
 
 fn new_direction(x: &str) -> Direction {
@@ -71,19 +75,36 @@ impl State {
     fn make_move(&mut self, m: Direction) {
         match m {
             Direction::Up => {
-                let new_head: (i32, i32) = (self.head.0, self.head.1 + 1);
+                let new_head = (self.head.0, self.head.1 + 1);
                 self.move_helper(new_head);
             }
             Direction::Down => {
-                let new_head: (i32, i32) = (self.head.0, self.head.1 - 1);
+                let new_head = (self.head.0, self.head.1 - 1);
                 self.move_helper(new_head);
             }
             Direction::Right => {
-                let new_head: (i32, i32) = (self.head.0 + 1, self.head.1);
+                let new_head = (self.head.0 + 1, self.head.1);
                 self.move_helper(new_head);
             }
             Direction::Left => {
-                let new_head: (i32, i32) = (self.head.0 - 1, self.head.1);
+                let new_head = (self.head.0 - 1, self.head.1);
+                self.move_helper(new_head);
+            }
+
+            Direction::UpRight => {
+                let new_head = (self.head.0 + 1, self.head.1 + 1);
+                self.move_helper(new_head);
+            }
+            Direction::UpLeft => {
+                let new_head = (self.head.0 - 1, self.head.1 + 1);
+                self.move_helper(new_head);
+            }
+            Direction::DownRight => {
+                let new_head = (self.head.0 + 1, self.head.1 - 1);
+                self.move_helper(new_head);
+            }
+            Direction::DownLeft => {
+                let new_head = (self.head.0 - 1, self.head.1 - 1);
                 self.move_helper(new_head);
             }
         }
@@ -162,9 +183,8 @@ pub fn part2() {
         tail: (0, 0),
         tail_positions: HashSet::new(),
     };
-
-
     state.tail_positions.insert((0, 0));
+
     for m in steps.iter() {
         state.make_move(m.clone());
     }
